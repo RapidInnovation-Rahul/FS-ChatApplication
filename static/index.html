@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>FullStack-ChatApp</title>
+  <!-- <script src = "/static/script.js"></script> -->
+  <!-- <link rel = "stylesheet" type ="text/css" href="/static/style.css"> -->
+  <script>
+   
+  const chatBox = document.querySelector('#body')
+
+async function get_all_messages(){
+    const response = await fetch("/get_messages",{method: "GET"});
+    const myJson = await response.json();
+    console.log(myJson)
+}
+
+async function send_message(){
+  
+  const user = document.getElementById('username').value;
+    console.log("username: "+user);
+    const cntxt = document.getElementById('msg').value;
+    console.log("context: "+cntxt);
+     let msgInfo = {
+      sender : user,
+      msg_body : cntxt
+    };
+
+    appendMessage(user, cntxt);
+  const response = await fetch('http://127.0.0.1:8080/store', {
+    method: 'POST',
+    body: JSON.stringify(msgInfo), // string or object
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const myJson = await response.json();
+  console.log(myJson) 
+}
+
+// const user = document.getElementById('username').value;
+//     console.log("username: "+user);
+//     const cntxt = document.getElementById('msg').value;
+//     console.log("context: "+cntxt);
+
+//      let msgInfo = {
+//       sender : user,
+//       msg_body : cntxt
+//     };
+function appendMessage(name, msgBody){
+
+  
+
+  // // create a new message
+  // const msgHTML = '<p class = "message">${name} : ${msgBody}</p>';
+  // // push it to the ui
+  // chatBox.insertAdjacentHTML("beforeend", msgHTML);
+  // chatBox.scrollTop += 500;
+}
+  </script>
+  <style>
+    *{
+    margin : 0;
+    padding : 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    
+}
+
+body{
+    height : 100vh;
+    background-color:whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    width : 450px;
+    height : 80vh;
+    display : flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 20px rgba(0,0,0,0.4);
+    background-color:dodgerblue;
+    
+}
+.header h1{
+    color: white;
+    padding : 15px;
+}
+
+.body{
+    flex : 1;
+    color : white;
+    background-color: rgba(0,0,0,0.7);
+    padding: 20px 30px;
+}
+
+.message{
+    background-color:dodgerblue ;
+    padding : 10px;
+    color: white;
+    width: fit-content;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* .user_message{
+    margin-left: auto;
+    background-color: white;
+    color : black;
+} */
+
+.footer form{
+    display : flex;
+    
+}
+
+form input{
+    flex : 1;
+    height : 40px;
+    border : none;
+    outline : none;
+    padding-left: 5px;
+    font-size: 16px;
+}
+
+form button{
+    width : 100px;
+    font-size: 18px;
+    border : none;
+    outline : none;
+    background-color: dodgerblue;
+    color: white;
+    cursor : pointer;
+}
+
+form button:hover{
+    background-color: blue;
+}
+  </style>
+</head>
+<body>
+  <div class = "container">
+    <div class = "header">
+      <h1>FullStack-ChatApp</h1>
+      <input id="username" type="text" placeholder="Enter Username" autocomplete="off" name="name">
+    </div>
+    <div class = "body">
+      <p class = "message">user1 : Hello</p>
+      <p class = "message">user2 : Hello</p>
+      <!-- <P class = "message user_message">Hi! How are you?</P> -->
+    </div>
+    <div class = "footer">
+      <form>
+        <input id = "msg" type="text" placeholder="Enter your msg here" autocomplete="off" name="msg">
+        <button type="button" onclick="send_message()" >Send</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
