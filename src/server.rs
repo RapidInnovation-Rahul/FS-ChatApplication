@@ -16,7 +16,7 @@ pub struct Message(pub String);
 
 /// Message for chat server communications
 
-/// New chat session is created
+/// New chat sessionz
 #[derive(Message)]
 #[rtype(usize)]
 pub struct Connect {
@@ -76,10 +76,10 @@ impl ChatServer {
         rooms.insert("main".to_owned(), HashSet::new());
 
         ChatServer {
-            sessions: HashMap::new(),
+            sessions: HashMap::new(), // create new session
             rooms,
             rng: rand::thread_rng(),
-            visitor_count,
+            visitor_count, // total no. of visitor
         }
     }
     /// Send message to all users in the room
